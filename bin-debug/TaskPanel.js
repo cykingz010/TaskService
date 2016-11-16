@@ -9,7 +9,11 @@ var TaskPanel = (function () {
         this.taskNameTextFieldX = 40;
         this.taskNameTextFieldY = 50;
         this.taskNameTextFieldWidth = 200;
+        this.taskNameTextFieldHeight = 30;
+        this.taskNameBackX = 0;
+        this.taskNameBackY = 10;
         this.taskNameTextFieldColor = 0x000000;
+        this.taskNameColor = 0x000000;
         this.taskDescTextFieldText = "";
         this.taskDescTextFieldX = 10;
         this.taskDescTextFieldY = 100;
@@ -34,6 +38,7 @@ var TaskPanel = (function () {
         this.backGround = new egret.Shape();
         this.button = new egret.DisplayObjectContainer();
         this.buttonBack = new egret.Shape();
+        this.taskNameBack = new egret.Shape();
         this.buttonTextField = new egret.TextField();
         this.stage.addChild(this.panel);
         this.drawPanel();
@@ -63,6 +68,11 @@ var TaskPanel = (function () {
         this.buttonBack.graphics.beginFill(this.buttonColor, 1);
         this.buttonBack.graphics.drawRect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
         this.buttonBack.graphics.endFill();
+    };
+    p.drawTaskNameBack = function () {
+        this.taskNameBack.graphics.beginFill(this.taskNameColor, 1);
+        this.taskNameBack.graphics.drawRect(this.taskNameBackX, this.taskNameBackY, this.taskNameTextFieldWidth, this.taskNameTextFieldHeight);
+        this.taskNameBack.graphics.endFill();
     };
     p.setButtonText = function () {
         this.buttonTextField.text = this.buttonTextFieldText;
@@ -96,17 +106,10 @@ var TaskPanel = (function () {
     p.onButtonClick = function (e) {
         switch (this.currentTaskStatus) {
             case TaskStatus.ACCEPTABLE:
-                console.log("Accept Button Click");
-                console.log("Current Task Id: " + this.currentTaskId);
-                this.taskService.accept(this.currentTaskId);
                 break;
             case TaskStatus.DURING:
-                console.log("During Button Click");
-                this.taskService.during(this.currentTaskId);
                 break;
             case TaskStatus.CAN_SUBMIT:
-                console.log("Submit Button Click");
-                this.taskService.finish(this.currentTaskId);
                 break;
             default:
         }

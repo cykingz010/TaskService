@@ -21,7 +21,12 @@ class TaskPanel implements Observer {
 	private taskNameTextFieldX = 40;
 	private taskNameTextFieldY = 50;
 	private taskNameTextFieldWidth = 200;
+	private taskNameTextFieldHeight = 30;
+	private taskNameBackX = 0;
+	private taskNameBackY = 10;
 	private taskNameTextFieldColor = 0x000000;
+	private taskNameBack: egret.Shape;
+	private taskNameColor = 0x000000;
 
 	private taskDescTextField: egret.TextField;
 	private taskDescTextFieldText = "";
@@ -56,6 +61,7 @@ class TaskPanel implements Observer {
 		this.backGround = new egret.Shape();
 		this.button = new egret.DisplayObjectContainer();
 		this.buttonBack = new egret.Shape();
+		this.taskNameBack = new egret.Shape();
 		this.buttonTextField = new egret.TextField();
 		this.stage.addChild(this.panel);
 		this.drawPanel();
@@ -91,6 +97,13 @@ class TaskPanel implements Observer {
 		this.buttonBack.graphics.beginFill(this.buttonColor, 1);
 		this.buttonBack.graphics.drawRect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
 		this.buttonBack.graphics.endFill();
+
+	}
+
+	private drawTaskNameBack() {
+		this.taskNameBack.graphics.beginFill(this.taskNameColor, 1);
+		this.taskNameBack.graphics.drawRect(this.taskNameBackX, this.taskNameBackY, this.taskNameTextFieldWidth, this.taskNameTextFieldHeight);
+		this.taskNameBack.graphics.endFill();
 
 	}
 
@@ -131,21 +144,14 @@ class TaskPanel implements Observer {
 	private onButtonClick(e: egret.TouchEvent) {
 		switch (this.currentTaskStatus) {
 			case TaskStatus.ACCEPTABLE:
-				console.log("Accept Button Click");
-				console.log("Current Task Id: " + this.currentTaskId);
-				this.taskService.accept(this.currentTaskId);
 				break;
 
 			case TaskStatus.DURING:
-				console.log("During Button Click");
-				this.taskService.during(this.currentTaskId);
 				break;
 
 
 			case TaskStatus.CAN_SUBMIT:
-				console.log("Submit Button Click");
-				this.taskService.finish(this.currentTaskId);
-				break;
+			break;
 
 			default:
 
