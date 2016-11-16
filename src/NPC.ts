@@ -1,6 +1,5 @@
 var emojiimage = {
     npc_0: "NPC01_png",
-    npc_1: "NPC02_png",
     ACCEPTABLEimage: "ACCEPTABLE_png",
     DURINGimage: "DURING_png",
     CANSUBMITTEDimage: "CANSUBMITTED_png",
@@ -92,7 +91,6 @@ class NPC implements Observer {
         this.npcStage.addChild(this.npcStageShape);
         this.npcStage.addChild(this.emoji);
         this.emoji.touchEnabled = true;
-        //this.npcStage.touchEnabled = true;
         this.emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNpcClick, this);
     }
 
