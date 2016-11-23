@@ -33,9 +33,10 @@ class NPC implements Observer {
     taskSubmitState: State;
     taskDuringState: State;
     taskStateMachine: StateMachine;
-    NPCtalkpanel:NPCTalkPanel;
+    dialoguePanel:DialoguePanel;
+    mockkillmosterbutton:MockKillMonsterButton;
 
-    public constructor(npcId: string, npcName: string, taskService,NPCtalkpanel:NPCTalkPanel) {
+    public constructor(npcId: string, npcName: string, taskService,NPCtalkpanel:DialoguePanel,mockkillmonsterpanel:MockKillMonsterButton) {
         this.npcStage = new egret.DisplayObjectContainer();
         this.npcStageShape = new egret.Shape();
         this.emoji = new egret.Bitmap();
@@ -43,14 +44,13 @@ class NPC implements Observer {
         this.npcName = npcName;
         this.taskService = taskService;
         this.taskService.Attach(this, "NPC");
-
         this.taskNoneState = new TaskNoneState(this);
         this.taskAvilableState = new TaskAvilableState(this);
         this.taskDuringState = new TaskDuringState(this);
         this.taskSubmitState = new TaskSubmitState(this);
 
         this.taskStateMachine = new StateMachine(this.taskNoneState);
-        this.NPCtalkpanel=NPCtalkpanel;
+        this.dialoguePanel=NPCtalkpanel;
     }
 
     getTask() {
@@ -91,6 +91,7 @@ class NPC implements Observer {
         this.npcStage.addChild(this.npcStageShape);
         this.npcStage.addChild(this.emoji);
         this.emoji.touchEnabled = true;
+        //this.npcStage.touchEnabled = true;
         this.emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNpcClick, this);
     }
 
@@ -132,7 +133,7 @@ class NPC implements Observer {
     }
 
     onNpcClick(e: egret.TouchEvent, task: Task = this.task, npcid: string = this.npcId) {
-        this.taskService.checkTaskRules(task, npcid,this.NPCtalkpanel);
+        this.taskService.checkStatus(task, npcid,this.dialoguePanel);
     }
 
     onChange(task: Task) {
@@ -143,7 +144,6 @@ class NPC implements Observer {
     rule(taskList: Task[], npcId: string): Task {
         for (var i = 0; i < taskList.length; i++) {
             if (taskList[i].fromNpcId == npcId || taskList[i].toNpcId == npcId) {
-                console.log("Find");
                 return taskList[i];
 
             }

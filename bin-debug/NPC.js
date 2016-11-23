@@ -6,7 +6,7 @@ var emojiimage = {
     UNACCEPTABLEimage: "UNACCEPTABLE_png"
 };
 var NPC = (function () {
-    function NPC(npcId, npcName, taskService, NPCtalkpanel) {
+    function NPC(npcId, npcName, taskService, NPCtalkpanel, mockkillmonsterpanel) {
         this.tileSize = 64;
         this.emojiX = 0;
         this.emojiY = 64;
@@ -24,7 +24,7 @@ var NPC = (function () {
         this.taskDuringState = new TaskDuringState(this);
         this.taskSubmitState = new TaskSubmitState(this);
         this.taskStateMachine = new StateMachine(this.taskNoneState);
-        this.NPCtalkpanel = NPCtalkpanel;
+        this.dialoguePanel = NPCtalkpanel;
     }
     var d = __define,c=NPC,p=c.prototype;
     p.getTask = function () {
@@ -57,6 +57,7 @@ var NPC = (function () {
         this.npcStage.addChild(this.npcStageShape);
         this.npcStage.addChild(this.emoji);
         this.emoji.touchEnabled = true;
+        //this.npcStage.touchEnabled = true;
         this.emoji.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onNpcClick, this);
     };
     p.checkState = function () {
@@ -94,7 +95,7 @@ var NPC = (function () {
     p.onNpcClick = function (e, task, npcid) {
         if (task === void 0) { task = this.task; }
         if (npcid === void 0) { npcid = this.npcId; }
-        this.taskService.checkTaskRules(task, npcid, this.NPCtalkpanel);
+        this.taskService.checkStatus(task, npcid, this.dialoguePanel);
     };
     p.onChange = function (task) {
         this.task = task;
@@ -103,7 +104,6 @@ var NPC = (function () {
     p.rule = function (taskList, npcId) {
         for (var i = 0; i < taskList.length; i++) {
             if (taskList[i].fromNpcId == npcId || taskList[i].toNpcId == npcId) {
-                console.log("Find");
                 return taskList[i];
             }
         }
